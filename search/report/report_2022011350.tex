@@ -1,0 +1,159 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{enumerate}
+
+\title{\bf\Large  AI 2022 Fall\\Assignment 2 Search Submission}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% DON'T forget to change this part %%
+\author{\bf Name: Weng Haoyang \qquad Student ID: 2022011350}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\maketitle
+\section{Writing Component}
+
+\subsection{Search with Heuristics}
+\paragraph*{(a)}
+\[\mathcal{O} (n^3)\]
+
+\paragraph*{(b)}
+\[ h_i(x_i, y_i) = |x_i - (n - i + 1)| + |y_i - n|\]
+Of course,  Manhattan distance is admissible.
+
+May not with other cars, because hopping over cars get a jump of \(2\) with cost of \(1\).
+
+\paragraph*{(c)}
+% item use roman number
+\begin{enumerate}[(i)]
+    \item No.
+    \item Yes, because hopping only halves the cost needed to the goal.
+    \item No.
+    \item No.
+    \item No.
+\end{enumerate}
+
+\subsection{Adjusted Heuristics}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../image/counter_example.png}
+    \caption{counetr example}
+    \label{fig:counter}
+\end{figure}
+
+\section{Programming Component: Search in Pacman}
+\setcounter{subsection}{2}
+\subsection{Question 1: Depth First Search}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../image/q1.png}
+    \caption{q1}
+    \label{fig:q1}
+\end{figure}
+
+\subsection{Question 2: Breadth First Search}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../image/q2.png}
+    \caption{q2}
+    \label{fig:q2}
+\end{figure}
+
+\subsection{Question 3: Uniform Cost Search}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../image/q3.png}
+    \caption{q3}
+    \label{fig:q3}
+\end{figure}
+
+\subsection{Question 4: A\* Search}
+In this problem I implemented A\* search with null heuristic.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../image/q4.png}
+    \caption{q4}
+    \label{fig:q4}
+\end{figure}
+
+\subsection{Question 5: Finding All the Corners}
+In this problem I defined state for the problem by supplying the state with a 4-tuple of bool to record which corner have been reached
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../image/q5.png}
+    \caption{q5}
+    \label{fig:q5}
+\end{figure}
+
+\subsection{Question 6: Corners Problem: Heuristic}
+In this problem I designed a heuristic for 4 corner-search problem.
+The heuristic is the minimum cost to reach the goal in a relaxed problem, i.e. without walls, 
+ and I consider the four cases separately.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../image/q6.png}
+    \caption{q6}
+    \label{fig:q6}
+\end{figure}
+
+\subsection{Question 7: Eating All The Dots}
+I designed four heuristics for this problem, and I will prove that they are consistent.
+
+\paragraph*{(a)}
+The first heuristic is the Manhattan distance to the closest dot.
+
+We need to prove \(h(A) \leq h(C) + \text{cost} (A to C)\). 
+If \(A\) is a dot, then \(h(A) = 0\). 
+If \(C\) is the closest dot of \(A\), then \(h(C) = 0\), \(h(A) = \text{cost}(A to C) = 1\).
+Leaving us with the case where \(C\) is not the closest dot of \(A\).
+Taking one step from \(A\) to \(C\) can only cause a change of magnitude \(1\) in the Manhattan distance to every dot,
+so the heuristic is consistent.
+\paragraph*{(b)}
+The second heuristic is the Manhattan distance to the furthest dot.
+
+Proof is same as above.
+\paragraph*{(c)}
+The third heuristic is the distance between two closest dots and the smaller one of the Manhattan distances to the two.
+
+If \(C\) is not a dot, then the two closest dots are not different in evaluating the heuristic, so the proof is same.
+
+If \(C\) is a dot, and \(C\) is one of the two closest dots, then \(h(A) = \text{distance of closest two dots in some set} + 1\) and \(h(C) = \text{distance of closest two dots in some set except C} + \text{some distance larger than 1}\). 
+So the heuristic is consistent.
+\paragraph*{(d)}
+The fourth heuristic is the distance between two furthest dots and the smaller one of the Manhattan distances to the two.
+
+The proof is similar.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../image/q7_1.png}
+    \caption{q7 (the heuristic used to test is 4)}
+    \label{fig:q7}
+\end{figure}
+
+\subsection{Question 8: Suboptimal Search}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../image/q8.png}
+    \caption{q8}
+    \label{fig:q8}
+\end{figure}
+
+The counterexample of closest dot search is inspired by the corners problem. The setting is three dots on the corner and starting point close to the dot in the middle.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=\textwidth]{../image/suboptimal.png}
+    \caption{suboptimal}
+    \label{fig:suboptimal}
+\end{figure}
+
+\end{document}
